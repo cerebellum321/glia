@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+if [ $# != 0 ]; then
+  echo "Usage: --"
+  echo " - output: ---"
+  exit
+fi
+
+CELL=".icon"
+
+readarray -t LIST < $CELL
+
+echo "NULL: latex"
+
+for topo in "${LIST[@]}"
+do
+    rm -f document.$topo
+done

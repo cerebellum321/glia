@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+if [ $# != 0 ]; then
+  echo "Usage: <file-path>"
+  echo " - output: ---"
+  exit
+fi
+
+ORIG="document.tex"
+DEST="document.pdf"
+
+echo "TOPO: latex"
+
+#pandoc "document.md" -o "document.pdf" --from markdown --template "thunder.latex" --listings
+pdflatex "$ORIG"
+evince "$DEST"

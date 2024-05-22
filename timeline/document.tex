@@ -1,0 +1,132 @@
+\documentclass{standalone}
+% https://martin-thoma.com/colors-in-latex/
+% https://en.wikibooks.org/wiki/LaTeX/Colors
+% https://en.wikibooks.org/wiki/Main_Page
+% https://en.wikibooks.org/wiki/LaTeX
+
+%% --- BEGIN: COLORS ---
+%
+% URI: https://tex.stackexchange.com/questions/11311/how-to-include-a-document-into-another-document
+% URI: https://latexcolor.com/ 
+%
+%% --- END  : COLORS ---
+
+%% --- BEGIN: COMMENT ---
+%
+% --- COMMENT : https://tex.stackexchange.com/questions/87303/multi-line-block-comments-in-latex#87447 
+%
+%% --- END  : COMMENT ---
+
+%%% Define: \newcommand's in this latex document.
+\newcommand{\COMMENT}[1]{}
+
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{tikz} \usetikzlibrary{calc, arrows.meta, intersections, patterns, positioning, shapes.misc, fadings, through,decorations.pathreplacing}
+
+\definecolor{ColorOne}{named}{MidnightBlue}
+\definecolor{ColorTwo}{named}{Dandelion}
+\definecolor{ColorThree}{named}{Plum}
+
+\include{glia/glia-color.tex} %%% include glia-colors.
+
+\begin{document}
+
+\tikzstyle{topo-text} = [text = black,align=center, minimum height=1.8cm, align=center, outer sep=0pt,font = \footnotesize]
+\tikzstyle{topo-pane} = [align=center,outer sep=1pt]
+
+\begin{tikzpicture}[very thick, black]
+\small
+
+%% Coordinates
+\coordinate (xy00) at (0,0); % 0rigin
+\coordinate (xy10) at (3,0);
+\coordinate (xy20) at (8,0);
+\coordinate (xy30) at (12,0);
+\coordinate (xy40) at (20,0); %End
+\coordinate (N6) at (5,0); %Event
+\coordinate (N7) at (0.5,0); %Event
+
+%% ----- GRID
+\coordinate (LT) at ( 0.0, 10.0); % corner-dart
+\coordinate (LB) at ( 0.0, 0.0);  % corner-dart
+\coordinate (RT) at (10.0, 10.0); % corner-dart
+\coordinate (RB) at (10.0, 0.0);  % corner-dart
+
+%% ---- ARROW
+
+\coordinate (arrow-init) at ( 0.0, 5.0); % start-arrow
+\coordinate (arrow-done) at ( 5.0, 5.0); % top-arrow
+
+%% --- CELL
+\coordinate (cell-zero) at ( 5.0, 5.0); % top-arrow
+
+%% Eilled regions
+%%% retangle.
+\fill[color=ColorOne!20] rectangle (xy00) -- (xy10) -- ($(xy10)+(0,1)$) -- ($(xy00)+(0,1)$); % Studies
+%%% striped lines.
+\path [pattern color=ColorOne, pattern=north east lines, line width = 1pt, very thick] rectangle ($(xy00)+(0.5,0)$) -- ($(xy00)+(2,0)$) -- ($(xy00)+(2,1)$) -- ($(xy00)+(0.5,1)$); % Something else
+%\shade[left color=ColorThree, right color=white] rectangle (xy20) -- (xy30) -- ($(xy30)+(0,1)$) -- ($(xy20)+(0,1)$); % Current work
+
+\COMMENT {
+
+%% Text inside filled regions
+\draw ($(xy00)+(-0.5,0.0)$) node[topo-pane,ColorOne] {\bf{C}};
+\draw ($(xy20)+(-2,0.5)$) node[topo-pane,ColorTwo] {\bf{Rust}};
+\draw ($(xy30)+(-2,0.5)$)  node[topo-pane, ColorThree] {\bf{Labweek 2023}};
+
+\draw ($(N6)+(-2, 0.5)$)  node[topo-pane, glia-color-red] {\bf{Labweek 2023}};
+\draw ($(N6)+(-2, 1.5)$)  node[topo-pane, glia-color-blue] {\bf{Labweek 2023}};
+\draw ($(N6)+(-2, -1.5)$)  node[topo-pane, glia-color-green] {\bf{Labweek 2023}};
+
+\draw ($(N6)+(-2, -9.5)$)  node[topo-pane, color-babyblue] {\bf{BabyBlue}};
+
+}
+
+%% GRID
+\draw ($(LT)+(0.0, 0.0)$)  node[topo-pane, glia-color-red] {\bf{LT}};
+\draw ($(LB)+(0.0, 0.0)$)  node[topo-pane, glia-color-green] {\bf{LB}};
+\draw ($(RT)+(0.0, 0.0)$)  node[topo-pane, glia-color-blue] {\bf{RT}};
+\draw ($(RB)+(0.0, 0.0)$)  node[topo-pane, glia-color-red] {\bf{RB}};
+
+%% ARROW
+\draw[->] (arrow-init) -- (arrow-done);
+
+%% TEXTBOX
+\draw ($(cell-zero)+(-2,0.5)$)  node[topo-pane, ColorThree] {\bf{zero}};
+
+
+%\COMMENT {
+%% Description
+\node[topo-text,fill=ColorTwo!15,text=ColorTwo](xy10-logo) at ($(xy10)+(-2,-2.5)$) { \textbf{Pong} is topo-text };
+%}
+
+%\COMMENT {
+\node[topo-text,fill=ColorThree!15,text=ColorThree](hiho-zero) at ($(cell-zero)+(0, 0)$) { "A tale of \textbf{Rusty} and \emph{Pong} is \textbf{topo-text}" };
+%}
+	
+\COMMENT {
+%% arrow
+\draw[<-,thick,color=black] ($(xy10)+(1,0.1)$) -- ($(xy10)+(1,1.5)$) node [above=0pt,align=center,black] { \bf{Unix} };
+}
+
+\COMMENT {
+%% Arrows
+\path[->,color=ColorTwo]  ($(xy10)+(-1,-0.1)$) edge [out=-90, in=130]  ($(xy10-logo)+(0,1)$);
+\path[->,color=ColorThree]($(xy30)+(-1,-0.1)$)  edge [out=-70, in=90]  ($(xy30-logo)+(0,1)$);
+}
+
+\COMMENT {
+%% Arrow
+\draw[->] (xy00) -- (xy40);
+%% Ticks
+\foreach \x in {0,2,...,12}
+\draw(\x cm,3pt) -- (\x cm,-3pt);
+%% Labels
+\foreach \i \j in {0/1969,2/1972,3/1973,4/1979,6/2015,8/2018,10/2023}{\draw (\i,0) node[below=3pt] {\j} ;
+}
+
+} %%% END-COMMENT
+
+\end{tikzpicture}
+
+\end{document}
